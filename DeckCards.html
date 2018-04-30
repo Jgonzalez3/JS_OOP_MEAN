@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Deck of Cards</title>
+</head>
+<script>
+    var suite = ["spade", "heart", "club", "diamond"];
+    class Deck{
+        constructor(){
+            this.cards = [];
+            this.CreateDeck();
+            this.ShuffleDeck();
+        }
+        CreateDeck(){
+            for(var i = 0; i<suite.length; i++){
+                for(var card = 2; card<15; card++){
+                    this.cards.push(suite[i]+card);
+                }
+            }
+        }
+        DisplayDeck(){
+            var count = 0;
+            // for(let i = 0; i<this.cards.length; i++){
+            //     console.log(this.cards[i]);
+            //     count++;
+            // }
+            console.log(this.cards);
+        }
+        ShuffleDeck(){
+            for(let i = 0; i<this.cards.length; i++){
+                let j = Math.floor(Math.random() * (51-0)+0);
+                //console.log(j);
+                //console.log("current card", this.cards[i])
+                let temp = this.cards[i];
+                //console.log("temp", temp); 
+                this.cards[i] = this.cards[j]; 
+                //console.log("random card", this.cards[j]);
+                this.cards[j] = temp; 
+                //console.log(this.cards[i]);
+            }
+        }
+        DeckDeal(){
+            if(this.cards.length == 0){
+                console.log("Deck has no more cards. Reset Deck");
+                return
+            }
+            let j = Math.floor(Math.random() * (51-0)+0);
+            var drawcard = this.cards.splice(j, 1);
+            console.log(drawcard);
+            
+            return drawcard;
+
+        }
+        ResetDeck(){
+            this.cards = [];
+            this.CreateDeck();
+            this.ShuffleDeck();
+        }
+    }
+    class Player{
+        constructor(name){
+            this.name = name;
+            this.hand = [];
+        }
+        DrawCard(Deck){
+            let drawcard = Deck.DeckDeal();
+            console.log(drawcard[0]);
+            this.hand.push(drawcard[0]);
+            console.log(this.hand);
+            
+        }
+        DiscardCard(card){
+            if(this.hand.length == 0){
+                console.log("You have no cards to discard Look at your hand");
+                return;
+            }
+            for(let i = 0; i<this.hand.length; i++){
+                if(card == this.hand[i]){
+                    let index = this.hand.indexOf(card);
+                    this.hand.splice(index, 1);
+                    break;
+                }
+            }
+            console.log(this.hand)
+        }
+        DisplayHand(){
+            console.log(this.hand);
+            for(let i = 0; i<this.hand.length; i++){
+                console.log(this.hand[i]);
+            }
+        }
+    }
+    const NewDeck = new Deck;
+    NewDeck.ShuffleDeck();
+    const Javier = new Player("Javier");
+    Javier.DrawCard(NewDeck);
+    Javier.DrawCard(NewDeck);
+    Javier.DiscardCard("spade13");
+    NewDeck.DisplayDeck();
+</script>
+<body>
+    
+</body>
+</html>
